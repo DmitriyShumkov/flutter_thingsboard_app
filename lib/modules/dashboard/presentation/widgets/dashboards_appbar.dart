@@ -32,10 +32,10 @@ class DashboardsAppbar extends StatelessWidget {
             height: 24,
             child: SvgPicture.asset(
               ThingsboardImage.thingsBoardWithTitle,
-              colorFilter: ColorFilter.mode(
-                Theme.of(context).primaryColor,
-                BlendMode.srcIn,
-              ),
+              // colorFilter: ColorFilter.mode(
+              //   Theme.of(context).primaryColor,
+              //   BlendMode.srcIn,
+              // ),
               semanticsLabel: 'ThingsBoard Logo',
             ),
           ),
