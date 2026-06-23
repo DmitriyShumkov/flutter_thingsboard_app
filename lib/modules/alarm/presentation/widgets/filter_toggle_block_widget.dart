@@ -35,10 +35,11 @@ class _FilterToggleBlockWidgetState<T> extends State<FilterToggleBlockWidget<T>>
 
   @override
   Widget build(BuildContext context) {
+    final onSurface = Theme.of(context).colorScheme.onSurface;
     return AlarmFilterWidget(
       filterTitle: widget.label,
       child: Wrap(
-runSpacing: 8,
+        runSpacing: 8,
         spacing: 8,
         children: List.generate(
           widget.items.length,
@@ -61,7 +62,7 @@ runSpacing: 8,
               style:
                   !selected.contains(widget.items.elementAt(index))
                       ? TextStyle(
-                        color: Colors.black.withValues(alpha: 0.38),
+                        color: onSurface.withValues(alpha: 0.38),
                         fontWeight: FontWeight.w400,
                         fontSize: 13,
                       )
@@ -77,12 +78,12 @@ runSpacing: 8,
                     : const Icon(Icons.check),
             style: FilledButton.styleFrom(
               tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              padding: const EdgeInsets.only(top: 6,bottom: 6, left: 12, right: 24),
+              padding: const EdgeInsets.only(top: 6, bottom: 6, left: 12, right: 24),
               minimumSize: const Size(0, DesignTokens.buttonHeightSmall),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
               backgroundColor:
                   !selected.contains(widget.items.elementAt(index))
-                      ? Colors.black.withValues(alpha: 0.06)
+                      ? onSurface.withValues(alpha: 0.06)
                       : null,
             ),
           ),

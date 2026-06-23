@@ -15,7 +15,7 @@ class TbAppBar extends HookConsumerWidget implements PreferredSizeWidget {
     this.leading,
     this.title,
     this.actions,
-    this.elevation = 8,
+    this.elevation = 0,
     this.shadowColor,
     this.showLoadingIndicator = false,
     this.canGoBack = true,
@@ -58,8 +58,8 @@ class TbAppBar extends HookConsumerWidget implements PreferredSizeWidget {
           leading: getLeading(context, isMainPage),
           title: buildTitle(context),
           actions: actions,
-          elevation: elevation ?? 8,
-          shadowColor: shadowColor ?? const Color(0xFFFFFFFF).withAlpha(150),
+          elevation: elevation ?? 0,
+          shadowColor: shadowColor ?? Colors.transparent,
           centerTitle: false,
         ),
         if (showLoadingIndicator)
@@ -137,7 +137,6 @@ class TbAppBar extends HookConsumerWidget implements PreferredSizeWidget {
             top: padding,
             borderColor: Colors.transparent,
             popupDirection: TooltipDirection.left,
-
             boxShadows: [
               BoxShadow(
                 color: AppColors.black.withValues(alpha: .15),

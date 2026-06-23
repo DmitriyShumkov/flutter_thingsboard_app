@@ -18,6 +18,8 @@ class AssigneeListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final onSurface = Theme.of(context).colorScheme.onSurface;
+    final surfaceColor = Theme.of(context).colorScheme.surface;
     return ConstrainedBox(
       constraints: BoxConstraints(
         maxHeight:
@@ -63,7 +65,7 @@ class AssigneeListWidget extends StatelessWidget {
               Container(
                 decoration: BoxDecoration(
                   border: Border.all(
-                    color: Colors.black.withValues(alpha: 0.12),
+                    color: onSurface.withValues(alpha: 0.12),
                   ),
                   borderRadius: BorderRadius.circular(4),
                 ),
@@ -76,7 +78,7 @@ class AssigneeListWidget extends StatelessWidget {
                         decoration: InputDecoration(
                           border: InputBorder.none,
                           hintStyle: TextStyle(
-                            color: Colors.black.withValues(alpha: 0.38),
+                            color: onSurface.withValues(alpha: 0.38),
                             fontWeight: FontWeight.w400,
                             fontSize: 14,
                           ),
@@ -98,7 +100,7 @@ class AssigneeListWidget extends StatelessWidget {
                     ),
                     Icon(
                       Icons.search,
-                      color: Colors.black.withValues(alpha: 0.54),
+                      color: onSurface.withValues(alpha: 0.54),
                       size: 24,
                     ),
                     const SizedBox(width: 16),
@@ -139,7 +141,7 @@ class AssigneeListWidget extends StatelessWidget {
                                 UserInfoWidget(
                                   avatar: Icon(
                                     Icons.account_circle,
-                                    color: Colors.black.withValues(alpha: 0.38),
+                                    color: onSurface.withValues(alpha: 0.38),
                                     size: 32,
                                   ),
                                   name: 'Assigned to me',
@@ -151,7 +153,6 @@ class AssigneeListWidget extends StatelessWidget {
                                         selfAssignment: true,
                                       ),
                                     );
-
                                     onChanged();
                                   },
                                   id:
@@ -183,7 +184,6 @@ class AssigneeListWidget extends StatelessWidget {
                                   getIt<AssigneeBloc>().add(
                                     AssigneeSelectedEvent(userId: id),
                                   );
-
                                   onChanged();
                                 },
                                 id: item.userInfo.id.id!,
@@ -194,7 +194,7 @@ class AssigneeListWidget extends StatelessWidget {
                     firstPageProgressIndicatorBuilder: (_) {
                       return Container(
                         height: 200,
-                        color: const Color(0x99FFFFFF),
+                        color: surfaceColor.withValues(alpha: 0.6),
                         child: const Center(
                           child: TbProgressIndicator(size: 50.0),
                         ),

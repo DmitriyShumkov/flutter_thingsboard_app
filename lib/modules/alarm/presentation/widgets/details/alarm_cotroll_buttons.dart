@@ -21,7 +21,7 @@ class AlarmControlButtons extends StatelessWidget {
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
-                colors: [Color.fromRGBO(255, 255, 255, 0.00), Colors.white],
+                colors: [Color.fromRGBO(255, 255, 255, 0.00), Colors.black],
                 stops: [0.0088, 0.083],
               ),
             ),

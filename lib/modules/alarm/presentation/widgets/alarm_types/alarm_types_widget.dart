@@ -9,7 +9,6 @@ import 'package:thingsboard_app/utils/ui/ui_utils.dart';
 
 class AlarmTypesWidget extends StatelessWidget {
   const AlarmTypesWidget({
-
     required this.onChanged,
     super.key,
   });
@@ -18,12 +17,13 @@ class AlarmTypesWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final onSurface = Theme.of(context).colorScheme.onSurface;
     return AlarmFilterWidget(
       filterTitle: S.of(context).alarmTypeList,
       child: Container(
         constraints: const BoxConstraints(minHeight: 38),
         decoration: BoxDecoration(
-          border: Border.all(color: Colors.black.withValues(alpha: 0.12)),
+          border: Border.all(color: onSurface.withValues(alpha: 0.12)),
           borderRadius: BorderRadius.circular(4),
         ),
         width: double.infinity,
@@ -41,7 +41,6 @@ class AlarmTypesWidget extends StatelessWidget {
                             curve: Curves.easeInOut,
                             duration: const Duration(milliseconds: 500),
                             child: TypesListWidget(
-                           
                               onChanged: onChanged,
                             ),
                           ),
@@ -59,7 +58,7 @@ class AlarmTypesWidget extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w400,
-                            color: Colors.black.withValues(alpha: 0.38),
+                            color: onSurface.withValues(alpha: 0.38),
                           ),
                         ),
                       ),
@@ -86,7 +85,7 @@ class AlarmTypesWidget extends StatelessWidget {
                           ),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(16),
-                            color: Colors.black.withValues(alpha: 0.04),
+                            color: onSurface.withValues(alpha: 0.04),
                           ),
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
@@ -95,7 +94,7 @@ class AlarmTypesWidget extends StatelessWidget {
                                 child: Text(
                                   state.selectedTypes.elementAt(index),
                                   style: TextStyle(
-                                    color: Colors.black.withValues(alpha: 0.87),
+                                    color: onSurface.withValues(alpha: 0.87),
                                     fontWeight: FontWeight.w400,
                                     fontSize: 14,
                                   ),
@@ -115,7 +114,7 @@ class AlarmTypesWidget extends StatelessWidget {
                                 },
                                 child: Icon(
                                   Icons.close,
-                                  color: Colors.black.withValues(alpha: 0.54),
+                                  color: onSurface.withValues(alpha: 0.54),
                                 ),
                               ),
                             ],
@@ -132,7 +131,6 @@ class AlarmTypesWidget extends StatelessWidget {
                               topControl: const SizedBox.shrink(),
                               builder:
                                   (context) => TypesListWidget(
-                            
                                     onChanged: onChanged,
                                   ),
                             );
@@ -141,7 +139,7 @@ class AlarmTypesWidget extends StatelessWidget {
                             S.of(context).plusAlarmType,
                             style: TextStyle(
                               fontSize: 14,
-                              color: Colors.black.withValues(alpha: 0.38),
+                              color: onSurface.withValues(alpha: 0.38),
                               fontWeight: FontWeight.w400,
                             ),
                           ),

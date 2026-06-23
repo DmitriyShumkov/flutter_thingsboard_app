@@ -13,6 +13,7 @@ class SystemActivityWidget extends StatelessWidget {
     final diff = DateTime.now().difference(
       DateTime.fromMillisecondsSinceEpoch(activity.createdTime ?? 0),
     );
+    final onSurface = Theme.of(context).colorScheme.onSurface;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -20,13 +21,13 @@ class SystemActivityWidget extends StatelessWidget {
         Text(
           timeago.format(DateTime.now().subtract(diff)),
           style: TbTextStyles.labelMedium.copyWith(
-            color: Colors.black.withValues(alpha: .38),
+            color: onSurface.withValues(alpha: .38),
           ),
         ),
         Text(
           (activity.comment as AlarmCommentJsonNode).text,
           style: TbTextStyles.bodyLarge.copyWith(
-            color: Colors.black.withValues(alpha: .54),
+            color: onSurface.withValues(alpha: .54),
           ),
         ),
       ],

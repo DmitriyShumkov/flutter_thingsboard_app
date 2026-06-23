@@ -37,7 +37,7 @@ class AlarmActivityWidget extends HookConsumerWidget {
           behavior: HitTestBehavior.opaque,
           child: Icon(
             Icons.refresh_rounded,
-            color: Colors.black.withValues(alpha: .54),
+            color: Colors.white.withValues(alpha: .54),
           ),
           onTap: () {
             getIt<AlarmActivityPaginationRepository>().pagingController
@@ -56,13 +56,13 @@ class AlarmActivityWidget extends HookConsumerWidget {
                   return Container(
                     height: 192,
                     decoration: BoxDecoration(
-                      color: Colors.black.withValues(alpha: .03),
+                      color: Colors.white.withValues(alpha: .03),
                       border: Border(
                         top: BorderSide(
-                          color: Colors.black.withValues(alpha: .12),
+                          color: Colors.white.withValues(alpha: .12),
                         ),
                         bottom: BorderSide(
-                          color: Colors.black.withValues(alpha: .12),
+                          color: Colors.red.withValues(alpha: .12),
                         ),
                       ),
                     ),

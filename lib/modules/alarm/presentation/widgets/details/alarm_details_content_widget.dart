@@ -17,6 +17,7 @@ class AlarmDetailsContentWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final onSurface = Theme.of(context).colorScheme.onSurface;
     return Column(
       children: [
         Row(
@@ -26,7 +27,7 @@ class AlarmDetailsContentWidget extends StatelessWidget {
             Text(
               title,
               style: TbTextStyles.bodyLarge.copyWith(
-                color: Colors.black.withValues(alpha: .38),
+                color: onSurface.withValues(alpha: .38),
               ),
             ),
             SizedBox(
@@ -37,7 +38,7 @@ class AlarmDetailsContentWidget extends StatelessWidget {
                 style:
                     detailsStyle ??
                     TbTextStyles.bodyLarge.copyWith(
-                      color: Colors.black.withValues(alpha: .76),
+                      color: onSurface.withValues(alpha: .76),
                     ),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
@@ -50,7 +51,7 @@ class AlarmDetailsContentWidget extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 16),
             child: Divider(
-              color: Colors.black.withValues(alpha: .05),
+              color: onSurface.withValues(alpha: .05),
               thickness: 1,
               height: 0,
             ),

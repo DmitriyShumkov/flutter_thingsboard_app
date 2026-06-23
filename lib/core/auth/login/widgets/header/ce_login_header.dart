@@ -16,7 +16,7 @@ class LoginHeader extends StatelessWidget {
           SvgPicture.asset(
             ThingsboardImage.thingsBoardWithTitle,
             height: 30,
-            colorFilter: Utils.toColorFilter(theme.primaryColor),
+            //colorFilter: Utils.toColorFilter(theme.primaryColor),
           ),
         ],
       ),

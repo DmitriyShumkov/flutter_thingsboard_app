@@ -7,20 +7,43 @@ import 'package:thingsboard_app/utils/transition/page_transitions.dart';
 
 Typography tbTypography = Typography.material2018();
 
+
+
+final textTheme = tbTypography.white.apply(
+  bodyColor: AppColors.textFantik,
+  displayColor: AppColors.textFantik,
+);
+
 ThemeData  tbTheme(MaterialColor primarySwatch, Color primaryColor, Color accentColor) {
   final ThemeData theme = ThemeData(primarySwatch: primarySwatch);
   return ThemeData(
   useMaterial3: false,
   primarySwatch: primarySwatch,
+
+
   colorScheme: theme.colorScheme.copyWith(
     primary: primaryColor,
     secondary: accentColor,
+
+
+    // surface: AppColors.scaffoldBackground,
+    onSurface: AppColors.textFantik,
+    // onBackground: AppColors.textFantik,
+    // onPrimary: AppColors.textFantik,
+    // onSecondary: AppColors.textFantik,
+
+
+
+
+
   ),
   inputDecorationTheme: inputTheme(primaryColor),
   textSelectionTheme: textSelectionTheme(primaryColor),
   scaffoldBackgroundColor: AppColors.scaffoldBackground,
-  textTheme: tbTypography.black,
-  primaryTextTheme: tbTypography.black,
+  //textTheme: tbTypography.black,
+  textTheme: textTheme,
+  //primaryTextTheme: tbTypography.black,
+  primaryTextTheme: textTheme,
   typography: tbTypography,
   appBarTheme: appBarTheme,
   bottomNavigationBarTheme: bottomNavigationBarTheme(primaryColor),

@@ -36,12 +36,13 @@ class _AlarmDetailsWidgetState extends State<AlarmDetailsWidget>
 
   @override
   Widget build(BuildContext context) {
+    final onSurface = Theme.of(context).colorScheme.onSurface;
     return ExpandableNotifier(
       controller: expandableController,
       child: ScrollOnExpand(
         child: Container(
           decoration: BoxDecoration(
-            border: Border.all(color: Colors.black.withValues(alpha: .12)),
+            border: Border.all(color: onSurface.withValues(alpha: .12)),
             borderRadius: BorderRadius.circular(6),
           ),
           child: ExpandablePanel(
@@ -54,7 +55,7 @@ class _AlarmDetailsWidgetState extends State<AlarmDetailsWidget>
                   Text(
                     S.of(context).details,
                     style: TbTextStyles.labelLarge.copyWith(
-                      color: Colors.black.withValues(alpha: .76),
+                      color: onSurface.withValues(alpha: .76),
                     ),
                   ),
                   RotationTransition(
@@ -66,7 +67,7 @@ class _AlarmDetailsWidgetState extends State<AlarmDetailsWidget>
                       angle: pi / 2,
                       child: Icon(
                         Icons.arrow_left_outlined,
-                        color: Colors.black.withValues(alpha: .38),
+                        color: onSurface.withValues(alpha: .38),
                       ),
                     ),
                   ),

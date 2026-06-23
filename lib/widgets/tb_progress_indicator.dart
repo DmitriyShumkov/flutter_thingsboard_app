@@ -56,13 +56,14 @@ class _TbProgressIndicatorState extends State<TbProgressIndicator>
   @override
   Widget build(BuildContext context) {
     return Stack(
+      alignment: Alignment.center,
       children: [
         SvgPicture.asset(
           ThingsboardImage.thingsboardCenter,
-          height: widget.size,
-          width: widget.size,
-          colorFilter: ColorFilter.mode(
-            widget._getValueColor(context),
+          height: widget.size * 0.6,
+          width: widget.size * 0.6,
+          colorFilter: const ColorFilter.mode(
+            Color(0xFFFF00CC), // нужный цвет
             BlendMode.srcIn,
           ),
         ),
@@ -72,8 +73,8 @@ class _TbProgressIndicatorState extends State<TbProgressIndicator>
             ThingsboardImage.thingsboardOuter,
             height: widget.size,
             width: widget.size,
-            colorFilter: ColorFilter.mode(
-              widget._getValueColor(context),
+            colorFilter: const ColorFilter.mode(
+              Color(0xFFFF00CC), // другой цвет при желании
               BlendMode.srcIn,
             ),
           ),
@@ -87,4 +88,5 @@ class _TbProgressIndicatorState extends State<TbProgressIndicator>
       ],
     );
   }
+
 }

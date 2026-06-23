@@ -13,6 +13,7 @@ class TypesListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final surfaceColor = Theme.of(context).colorScheme.surface;
     return ConstrainedBox(
       constraints: BoxConstraints(
         maxHeight: MediaQuery.of(context).size.height * 0.7,
@@ -85,7 +86,7 @@ class TypesListWidget extends StatelessWidget {
                   firstPageProgressIndicatorBuilder: (_) {
                     return Container(
                       height: 200,
-                      color: const Color(0x99FFFFFF),
+                      color: surfaceColor.withValues(alpha: 0.6),
                       child: const Center(
                         child: TbProgressIndicator(size: 50.0),
                       ),

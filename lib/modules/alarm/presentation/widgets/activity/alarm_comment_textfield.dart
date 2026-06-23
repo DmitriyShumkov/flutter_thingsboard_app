@@ -20,6 +20,7 @@ class _AlarmCommentTextFieldState extends State<AlarmCommentTextField> {
 
   @override
   Widget build(BuildContext context) {
+    final onSurface = Theme.of(context).colorScheme.onSurface;
     return TextField(
       controller: textController,
       decoration: InputDecoration(
@@ -29,7 +30,7 @@ class _AlarmCommentTextFieldState extends State<AlarmCommentTextField> {
           ),
         ),
         hintStyle: TbTextStyles.bodyLarge.copyWith(
-          color: Colors.black.withValues(alpha: .38),
+          color: onSurface.withValues(alpha: .38),
         ),
         hintText: S.of(context).addCommentMessage,
         suffixIcon: IconButton(

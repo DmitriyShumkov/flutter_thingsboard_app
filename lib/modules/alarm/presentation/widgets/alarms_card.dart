@@ -20,6 +20,7 @@ class _AlarmCardState extends State<AlarmCard> {
 
   @override
   Widget build(BuildContext context) {
+    final onSurface = Theme.of(context).colorScheme.onSurface;
     return Container(
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.only(
@@ -67,7 +68,7 @@ class _AlarmCardState extends State<AlarmCard> {
                                     ),
                                   ),
                                   style: TbTextStyles.bodyMedium.copyWith(
-                                    color: Colors.black.withValues(alpha: .54),
+                                    color: onSurface.withValues(alpha: .54),
                                   ),
                                 ),
                               ],
@@ -83,9 +84,7 @@ class _AlarmCardState extends State<AlarmCard> {
                                         ? widget.alarm.originatorName!
                                         : '',
                                     style: TbTextStyles.bodyMedium.copyWith(
-                                      color: Colors.black.withValues(
-                                        alpha: .54,
-                                      ),
+                                      color: onSurface.withValues(alpha: .54),
                                     ),
                                   ),
                                 ),
@@ -108,7 +107,7 @@ class _AlarmCardState extends State<AlarmCard> {
                 Divider(
                   height: 24,
                   thickness: 1,
-                  color: Colors.black.withValues(alpha: .05),
+                  color: onSurface.withValues(alpha: .05),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -122,7 +121,7 @@ class _AlarmCardState extends State<AlarmCard> {
                               ) ??
                               '',
                           style: TbTextStyles.bodyMedium.copyWith(
-                            color: Colors.black.withValues(alpha: .76),
+                            color: onSurface.withValues(alpha: .76),
                           ),
                         ),
                       ),
