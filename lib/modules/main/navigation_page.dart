@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:thingsboard_app/config/themes/app_colors.dart';
 import 'package:thingsboard_app/constants/app_constants.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
 import 'package:thingsboard_app/locator.dart';
@@ -23,7 +24,6 @@ class NavigationPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final ValueNotifier<int?> currentIndex = useState(0);
     final items = ref.watch(navigationProvider).bottomBarPages;
-    // Handle app lifecycle for notifications
     useOnAppLifecycleStateChange((prev, next) {
       if (next == AppLifecycleState.resumed) {
         getIt<NotificationService>().updateNotificationsCount();
@@ -35,7 +35,6 @@ class NavigationPage extends HookConsumerWidget {
       return null;
     }, []);
 
-    // Update current index based on current route
     useEffect(() {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         final currentPath = GoRouterState.of(context).uri.toString();
@@ -73,6 +72,7 @@ class NavigationPage extends HookConsumerWidget {
       canPop: false,
       child: SafeArea(
         child: Scaffold(
+          backgroundColor: AppColors.scaffoldBackground,
           body: child,
           bottomNavigationBar:
               currentIndex.value == null

@@ -29,7 +29,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.black,
       appBar: TbAppBar(title: Text(S.of(context).changePassword)),
       body: Stack(
         children: [
@@ -173,7 +173,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
               if (loading) {
                 return const SizedBox.expand(
                   child: ColoredBox(
-                    color: Color(0x99FFFFFF),
+                    color: Color(0x99000000),
                     child: Center(child: TbProgressIndicator(size: 50.0)),
                   ),
                 );
@@ -207,7 +207,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
             newPassword,
           );
           if (mounted) {
-           context.pop(true);
+            context.pop(true);
           }
         } catch (e) {
           _isLoadingNotifier.value = false;

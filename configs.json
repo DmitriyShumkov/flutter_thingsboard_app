@@ -1,6 +1,10 @@
+
 {
   "thingsboardApiEndpoint": "https://control.fantik.online",
   "appLinksUrlHost": "control.fantik.online",
   "appLinksUrlScheme": "https",
-  "androidApplicationName": "Управление Фантик"
+  "androidApplicationId": "fantik.control.app",
+  "androidApplicationName": "Управление Фантик",
+  "thingsboardOAuth2CallbackUrlScheme": "fantik_control.apk.auth",
+  "thingsboardAndroidAppSecret": "NmlXejJTcXVTcEE3RWs5a25VdTBvMnp0TVpFcEV2Qm9lU2UxTXRjUjN2dmhRQmVFemdyV3MxYUhjcm5XS296QQ=="
 }

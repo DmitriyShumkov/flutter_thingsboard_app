@@ -16,15 +16,15 @@ class TbBottomSheetBuilder<T> extends HookWidget {
     this.searchFunction,
     this.listTitleBuilder,
     this.itemBuilder,
-    this.shrinkWrap = true
+    this.shrinkWrap = true,
   });
   final List<T> allItems;
   final String title;
   final bool Function(String input, T item)? searchFunction;
-  final Widget Function(BuildContext context, String search, T item)?
-  itemBuilder;
+  final Widget Function(BuildContext context, String search, T item)? itemBuilder;
   final String Function(BuildContext context, T item)? listTitleBuilder;
   final bool shrinkWrap;
+
   @override
   Widget build(BuildContext context) {
     final form = useMemoized(() => FormGroup({"searchValue": FormControl()}));
@@ -34,7 +34,7 @@ class TbBottomSheetBuilder<T> extends HookWidget {
       child: Container(
         decoration: const BoxDecoration(
           borderRadius: BorderRadius.vertical(top: Radius.circular(8)),
-          color: AppColors.textWhite,
+          color: Colors.black,
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -85,7 +85,6 @@ class TbBottomSheetBuilder<T> extends HookWidget {
                         onPressed: () {
                           form.control('searchValue').updateValue('');
                         },
-
                         icon: const Icon(
                           Icons.close,
                           size: 24,
@@ -123,13 +122,11 @@ class TbBottomSheetBuilder<T> extends HookWidget {
                           ) ??
                           ListTile(
                             onTap: () => context.pop(item),
-
                             title: Text(
                               listTitleBuilder?.call(context, item) ??
                                   item.toString(),
                             ).boldSubString(
                               searchValue.toString(),
-
                               regularTextStyle: TbTextStyles.bodyLarge,
                             ),
                           );

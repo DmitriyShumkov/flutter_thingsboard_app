@@ -1,5 +1,5 @@
-IOSAPPLICATIONID=org.thingsboard.app
-IOSAPPLICATIONNAME=ThingsBoard App
-REGISTRATIONREDIRECTURLHOST=app.thingsboard.org
-REGISTRATIONREDIRECTURLSCHEME=tbscheme
-APPLINKSURLHOST=demo.thingsboard.io
+IOSAPPLICATIONID=fantik.control.app
+IOSAPPLICATIONNAME=Управление Фантик
+REGISTRATIONREDIRECTURLHOST=control.fantik.online
+REGISTRATIONREDIRECTURLSCHEME=fantik_control.app.auth
+APPLINKSURLHOST=control.fantik.online

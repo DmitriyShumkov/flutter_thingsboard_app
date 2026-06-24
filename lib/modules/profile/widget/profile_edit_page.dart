@@ -4,7 +4,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:reactive_forms/reactive_forms.dart';
-import 'package:reactive_phone_form_field/reactive_phone_form_field.dart';
 import 'package:thingsboard_app/config/themes/app_colors.dart';
 import 'package:thingsboard_app/config/themes/tb_text_styles.dart';
 import 'package:thingsboard_app/core/auth/login/provider/login_provider.dart';
@@ -17,7 +16,6 @@ import 'package:thingsboard_app/modules/profile/model/unit_systems.dart';
 import 'package:thingsboard_app/modules/profile/widget/profile_preview_widget.dart';
 import 'package:thingsboard_app/modules/profile/widget/tb_async_bottom_sheet_builder.dart';
 import 'package:thingsboard_app/modules/profile/widget/tb_bottom_sheet_builder.dart';
-import 'package:thingsboard_app/modules/profile/widget/tb_country_picker.dart';
 import 'package:thingsboard_app/modules/profile/widget/tb_drop_down_text_field.dart';
 import 'package:thingsboard_app/thingsboard_client.dart';
 import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
@@ -68,18 +66,6 @@ class ProfileEditPage extends HookConsumerWidget {
           ),
           'homeDashboardId': FormControl<DashboardInfo>(),
         }),
-
-        "phone": FormControl<PhoneNumber>(
-          value:
-              (user.phone != null && user.phone.toString().isNotEmpty)
-                  ? PhoneNumber.parse(user.phone!)
-                  : null,
-          validators: [PhoneValidators.valid],
-        ),
-        "countryCode": FormControl<Country>(
-          validators: [Validators.required],
-          value: CountryService().findByCode('US'),
-        ),
       }),
     );
     useEffect(() {
@@ -95,11 +81,7 @@ class ProfileEditPage extends HookConsumerWidget {
         listener.cancel();
       };
     }, []);
-    final phoneController = useMemoized(
-      () => PhoneController(
-        initialValue: PhoneNumber(isoCode: IsoCode.fromJson('US'), nsn: ''),
-      ),
-    );
+
     return PopScope(
       canPop: canPop.value,
       onPopInvokedWithResult: (didPop, result) async {
@@ -110,326 +92,286 @@ class ProfileEditPage extends HookConsumerWidget {
         }
       },
       child: Scaffold(
-      appBar: TbAppBar(
-        title: Text(
-          '${S.of(context).edit} ${S.of(context).profile.toLowerCase()}',
-        ),
-        leading: IconButton(
-          onPressed: () async {
-            if (!canPop.value) {
-              final cancel = await onCancelEditing(context);
-              if (cancel && context.mounted) {
-                await _setLanguageAndNavigate(context, initialLocale, context.pop);
+        appBar: TbAppBar(
+          title: Text(
+            '${S.of(context).edit} ${S.of(context).profile.toLowerCase()}',
+          ),
+          leading: IconButton(
+            onPressed: () async {
+              if (!canPop.value) {
+                final cancel = await onCancelEditing(context);
+                if (cancel && context.mounted) {
+                  await _setLanguageAndNavigate(
+                    context,
+                    initialLocale,
+                    context.pop,
+                  );
+                }
+              } else {
+                if (context.mounted) {
+                  context.pop();
+                }
               }
-            } else {
-              if (context.mounted) {
-                context.pop();
-              }
-            }
-          },
-          icon: const Icon(Icons.close),
+            },
+            icon: const Icon(Icons.close),
+          ),
         ),
-      ),
-      body: SafeArea(
-        child: Stack(
-          children: [
-            SizedBox.expand(
-              child: Column(
-                children: [
-                  Expanded(
-                    child: SingleChildScrollView(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 24,
-                          horizontal: 16,
-                        ),
-                        child: ReactiveForm(
-                          formGroup: form,
-                          child: Column(
-                            spacing: 24,
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              Row(
-                                spacing: 12,
-                                children: [
-                                  const Icon(
-                                    Icons.person,
-                                    color: AppColors.iconDisabled,
-                                  ),
-                                  Expanded(
-                                    child: TbTextField(
-                                      formControlName: 'email',
-                                      label: S.of(context).email,
-                                      hint: S.of(context).email,
-                                      autoFillHints: const [
-                                        AutofillHints.email,
-                                      ],
+        body: SafeArea(
+          child: Stack(
+            children: [
+              SizedBox.expand(
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: SingleChildScrollView(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 24,
+                            horizontal: 16,
+                          ),
+                          child: ReactiveForm(
+                            formGroup: form,
+                            child: Column(
+                              spacing: 24,
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                Row(
+                                  spacing: 12,
+                                  children: [
+                                    const Icon(
+                                      Icons.person,
+                                      color: AppColors.iconDisabled,
                                     ),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  const SizedBox(width: 36),
-                                  Expanded(
-                                    child: TbTextField(
-                                      formControlName: 'firstName',
-                                      label: S.of(context).firstName,
-                                      hint: S.of(context).firstName,
-                                      autoFillHints: const [
-                                        AutofillHints.givenName,
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  const SizedBox(width: 36),
-                                  Expanded(
-                                    child: TbTextField(
-                                      formControlName: 'lastName',
-                                      label: S.of(context).lastName,
-                                      hint: S.of(context).lastName,
-                                      autoFillHints: const [
-                                        AutofillHints.familyName,
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                spacing: 12,
-                                children: [
-                                  const Icon(
-                                    Icons.phone,
-                                    color: AppColors.iconDisabled,
-                                  ),
-                                  Expanded(
-                                    child: TbDropDownTextField<Country>(
-                                      formControlName: 'countryCode',
-                                      selectedItemBuilder:
-                                          (value) =>
-                                              getCountryDisplayName(value),
-                                      label: S.of(context).country,
-                                      bottomSheetBuilder:
-                                          (_, val) => const TbCountryPicker(),
-                                      onSelected: (val) {
-                                        phoneController.value = PhoneNumber(
-                                          isoCode: IsoCode.fromJson(
-                                            val!.countryCode,
-                                          ),
-                                          nsn: phoneController.value.nsn,
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  const SizedBox(width: 36),
-                                  Expanded(
-                                    child: ReactivePhoneFormField<PhoneNumber>(
-                                      controller: phoneController,
-                                      countryButtonStyle: CountryButtonStyle(
-                                        textStyle: TbTextStyles.bodyLarge,
-                                        showFlag: false,
-                                        showDropdownIcon: false,
+                                    Expanded(
+                                      child: TbTextField(
+                                        formControlName: 'email',
+                                        label: S.of(context).email,
+                                        hint: S.of(context).email,
+                                        autoFillHints: const [
+                                          AutofillHints.email,
+                                        ],
                                       ),
-                                      style: TbTextStyles.bodyLarge,
-                                      decoration: InputDecoration(
-                                        hintText: S.of(context).phone,
-                                        isDense: true,
-                                        border: const OutlineInputBorder(),
-                                        helperText:
-                                            S.of(context).phoneNumberHelperText,
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    const SizedBox(width: 36),
+                                    Expanded(
+                                      child: TbTextField(
+                                        formControlName: 'firstName',
+                                        label: S.of(context).firstName,
+                                        hint: S.of(context).firstName,
+                                        autoFillHints: const [
+                                          AutofillHints.givenName,
+                                        ],
                                       ),
-                                      formControlName: 'phone',
-                                      focusNode: FocusNode(),
-                                      valueAccessor: PhoneNumberValueAccessor(),
-                                      isCountryButtonPersistent: true,
-                                      isCountrySelectionEnabled: false,
                                     ),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                spacing: 12,
-                                children: [
-                                  const Icon(
-                                    Icons.language,
-                                    color: AppColors.iconDisabled,
-                                  ),
-                                  Expanded(
-                                    child: TbDropDownTextField<Locale>(
-                                      formControlName: 'additionalInfo.lang',
-                                      label: S.of(context).language,
-                                      onSelected: (val) async {
-                                        await S.load(val!);
-                                        if (context.mounted) {
-                                          selectedLocale.value = val;
-                                        }
-                                      },
-                                      selectedItemBuilder:
-                                          (val) => getLocalizedLanguageName(
-                                            val!,
-                                            context,
-                                          ),
-                                      bottomSheetBuilder:
-                                          (
-                                            _,
-                                            val,
-                                          ) => TbBottomSheetBuilder<Locale>(
-                                            allItems: allLanguages,
-
-                                            title: S.of(context).language,
-                                            listTitleBuilder:
-                                                (context, item) =>
-                                                    getLocalizedLanguageName(
-                                                      item,
-                                                      context,
-                                                    ),
-                                          ),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    const SizedBox(width: 36),
+                                    Expanded(
+                                      child: TbTextField(
+                                        formControlName: 'lastName',
+                                        label: S.of(context).lastName,
+                                        hint: S.of(context).lastName,
+                                        autoFillHints: const [
+                                          AutofillHints.familyName,
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                spacing: 12,
-                                children: [
-                                  const Icon(
-                                    Icons.square_foot,
-                                    color: AppColors.iconDisabled,
-                                  ),
-                                  Expanded(
-                                    child: TbDropDownTextField<UnitSystems>(
-                                      bottomSheetBuilder:
-                                          (_, val) =>
-                                              TbBottomSheetBuilder<UnitSystems>(
-                                                allItems: UnitSystems.values,
-
-                                                title: S.of(context).unitSystem,
-                                                listTitleBuilder:
-                                                    (context, item) =>
-                                                        item.getLocalizedName(
-                                                          context,
-                                                        ),
-                                              ),
+                                  ],
+                                ),
+                                Row(
+                                  spacing: 12,
+                                  children: [
+                                    const Icon(
+                                      Icons.language,
+                                      color: AppColors.iconDisabled,
+                                    ),
+                                    Expanded(
+                                      child: TbDropDownTextField<Locale>(
+                                        formControlName: 'additionalInfo.lang',
+                                        label: S.of(context).language,
+                                        onSelected: (val) async {
+                                          await S.load(val!);
+                                          if (context.mounted) {
+                                            selectedLocale.value = val;
+                                          }
+                                        },
+                                        selectedItemBuilder:
+                                            (val) =>
+                                                getLocalizedLanguageName(
+                                                  val!,
+                                                  context,
+                                                ),
+                                        bottomSheetBuilder:
+                                            (_, val) =>
+                                                TbBottomSheetBuilder<Locale>(
+                                                  allItems: allLanguages,
+                                                  title:
+                                                      S.of(context).language,
+                                                  listTitleBuilder:
+                                                      (context, item) =>
+                                                          getLocalizedLanguageName(
+                                                            item,
+                                                            context,
+                                                          ),
+                                                ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  spacing: 12,
+                                  children: [
+                                    const Icon(
+                                      Icons.square_foot,
+                                      color: AppColors.iconDisabled,
+                                    ),
+                                    Expanded(
+                                      child: TbDropDownTextField<UnitSystems>(
+                                        bottomSheetBuilder:
+                                            (_, val) =>
+                                                TbBottomSheetBuilder<
+                                                  UnitSystems
+                                                >(
+                                                  allItems: UnitSystems.values,
+                                                  title:
+                                                      S.of(context).unitSystem,
+                                                  listTitleBuilder:
+                                                      (context, item) =>
+                                                          item.getLocalizedName(
+                                                            context,
+                                                          ),
+                                                ),
+                                        formControlName:
+                                            'additionalInfo.unitSystem',
+                                        label: S.of(context).unitSystem,
+                                        selectedItemBuilder:
+                                            (value) =>
+                                                value!.getLocalizedName(
+                                                  context,
+                                                ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  spacing: 12,
+                                  children: [
+                                    const Icon(
+                                      Icons.dashboard,
+                                      color: AppColors.iconDisabled,
+                                    ),
+                                    Expanded(
+                                      child: TbDropDownTextField<DashboardInfo>(
+                                        formControlName:
+                                            'additionalInfo.homeDashboardId',
+                                        selectedItemBuilder:
+                                            (val) => val?.title,
+                                        hint: S.of(context).homeDashboard,
+                                        bottomSheetBuilder:
+                                            (_, val) =>
+                                                TbAsyncBottomSheetBuilder<
+                                                  PageLink,
+                                                  DashboardInfo
+                                                >(
+                                                  selectedValue: val,
+                                                  repository: getIt<
+                                                    DashboardsPaginationRepository
+                                                  >(),
+                                                  title:
+                                                      S
+                                                          .of(context)
+                                                          .homeDashboard,
+                                                  listTitleBuilder:
+                                                      (context, item) =>
+                                                          item.title,
+                                                ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    ReactiveCheckbox(
                                       formControlName:
-                                          'additionalInfo.unitSystem',
-                                      label: S.of(context).unitSystem,
-                                      selectedItemBuilder:
-                                          (value) =>
-                                              value!.getLocalizedName(context),
+                                          'additionalInfo.homeDashboardHideToolbar',
                                     ),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                spacing: 12,
-                                children: [
-                                  const Icon(
-                                    Icons.dashboard,
-                                    color: AppColors.iconDisabled,
-                                  ),
-                                  Expanded(
-                                    child: TbDropDownTextField<DashboardInfo>(
-                                      formControlName:
-                                          'additionalInfo.homeDashboardId',
-                                      selectedItemBuilder: (val) => val?.title,
-                                      hint: S.of(context).homeDashboard,
-
-                                      bottomSheetBuilder:
-                                          (_, val) => TbAsyncBottomSheetBuilder<
-                                            PageLink,
-                                            DashboardInfo
-                                          >(
-                                            selectedValue: val,
-
-                                            repository:
-                                                getIt<
-                                                  DashboardsPaginationRepository
-                                                >(),
-                                            title: S.of(context).homeDashboard,
-                                            listTitleBuilder:
-                                                (context, item) => item.title,
-                                          ),
+                                    Flexible(
+                                      child: Text(
+                                        S.of(context).hideHomeDashboardToolbar,
+                                        style: TbTextStyles.bodyLarge,
+                                        softWrap: true,
+                                      ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  ReactiveCheckbox(
-                                    formControlName:
-                                        'additionalInfo.homeDashboardHideToolbar',
-                                  ),
-                                  Text(
-                                    S.of(context).hideHomeDashboardToolbar,
-                                    style: TbTextStyles.bodyLarge,
-                                  ),
-                                ],
-                              ),
-                            ],
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 12,
-                    ),
-                    child: Column(
-                      spacing: 8,
-                      children: [
-                        SizedBox(
-                          width: double.infinity,
-                          child: ElevatedButton(
-                            child: Text(S.of(context).applyChanges),
-                            onPressed: () {
-                              _saveProfile(
-                                context,
-                                form,
-                                loading,
-                                user,
-                                ref,
-                                canPop,
-                              );
-                            },
-                          ),
-                        ),
-                        SizedBox(
-                          width: double.infinity,
-                          child: OutlinedButton(
-                            style: OutlinedButton.styleFrom(
-                              foregroundColor: AppColors.borderError,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 12,
+                      ),
+                      child: Column(
+                        spacing: 8,
+                        children: [
+                          SizedBox(
+                            width: double.infinity,
+                            child: ElevatedButton(
+                              child: Text(S.of(context).applyChanges),
+                              onPressed: () {
+                                _saveProfile(
+                                  context,
+                                  form,
+                                  loading,
+                                  user,
+                                  ref,
+                                  canPop,
+                                );
+                              },
                             ),
-                            onPressed:
-                                canPop.value
-                                    ? null
-                                    : () async {
-                                      await onDiscardPressed(context, initialLocale);
-                                    },
-                            child: Text(S.of(context).discardChanges),
                           ),
-                        ),
-                      ],
+                          SizedBox(
+                            width: double.infinity,
+                            child: OutlinedButton(
+                              style: OutlinedButton.styleFrom(
+                                foregroundColor: AppColors.borderError,
+                              ),
+                              onPressed:
+                                  canPop.value
+                                      ? null
+                                      : () async {
+                                        await onDiscardPressed(
+                                          context,
+                                          initialLocale,
+                                        );
+                                      },
+                              child: Text(S.of(context).discardChanges),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            AnimatedVisibilityWidget(
-              show: loading.value,
-              child: const FullScreenLoader(),
-            ),
-          ],
+              AnimatedVisibilityWidget(
+                show: loading.value,
+                child: const FullScreenLoader(),
+              ),
+            ],
+          ),
         ),
-      ),
       ),
     );
   }
@@ -449,15 +391,16 @@ class ProfileEditPage extends HookConsumerWidget {
             .control('additionalInfo.homeDashboardId')
             .patchValue(info, updateParent: false, emitEvent: true);
       } catch (e) {
-        // getIt<IOverlayService>().showErrorNotification(
-        //   (_) => 'Error fetching home dashboard info $e',
-        // );
+        // ignore
       }
       loading.value = false;
     }
   }
 
-  Future<void> onDiscardPressed(BuildContext context, Locale initialLocale) async {
+  Future<void> onDiscardPressed(
+    BuildContext context,
+    Locale initialLocale,
+  ) async {
     final original = S.of(context).discardChanges;
     String titleString = original;
     if (original.isNotEmpty) {
@@ -520,7 +463,6 @@ Future<void> _saveProfile(
   newUser.email = form.control('email').value.toString();
   newUser.firstName = form.control('firstName').value?.toString();
   newUser.lastName = form.control('lastName').value?.toString();
-  newUser.phone = (form.control('phone').value as PhoneNumber?)?.international;
 
   newUser.additionalInfo ??= {};
   final additionalInfoForm = form.control('additionalInfo') as FormGroup;

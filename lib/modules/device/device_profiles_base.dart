@@ -185,7 +185,6 @@ class _AllDevicesCardState extends State<AllDevicesCard> {
                         child: Container(
                           height: 40,
                           decoration: BoxDecoration(
-                            color: Colors.white,
                             borderRadius: BorderRadius.circular(4),
                           ),
                           child: StreamBuilder<int?>(
@@ -222,7 +221,6 @@ class _AllDevicesCardState extends State<AllDevicesCard> {
                         },
                       ),
                     ),
-                    // SizedBox(width: 4),
                     const SizedBox(
                       width: 1,
                       height: 40,
@@ -235,7 +233,6 @@ class _AllDevicesCardState extends State<AllDevicesCard> {
                         child: Container(
                           height: 40,
                           decoration: BoxDecoration(
-                            color: Colors.white,
                             borderRadius: BorderRadius.circular(4),
                           ),
                           child: StreamBuilder<int?>(
@@ -452,7 +449,7 @@ class _DeviceProfileCardState extends State<DeviceProfileCard> {
 
 Widget _buildDeviceCount(BuildContext context, bool active, int count) {
   final Color color =
-      active ? const Color(0xFF008A00) : const Color(0xFFAFAFAF);
+      active ? const Color(0xFFCCFF00) : const Color(0xFFAFAFAF);
   return Padding(
     padding: const EdgeInsets.all(12),
     child: Row(
@@ -512,7 +509,7 @@ class StrikeThroughPainter extends CustomPainter {
       Offset(size.width - offset, size.height - offset),
       paint,
     );
-    paint.color = Colors.white;
+    paint.color = Colors.black;
     canvas.drawLine(
       const Offset(2, 0),
       Offset(size.width + 2, size.height),

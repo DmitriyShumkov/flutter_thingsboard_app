@@ -54,9 +54,9 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
-  /// `ThingsBoard`
+  /// `Fantik`
   String get appTitle {
-    return Intl.message('ThingsBoard', name: 'appTitle', desc: '', args: []);
+    return Intl.message('Fantik', name: 'appTitle', desc: '', args: []);
   }
 
   /// `Home`
@@ -3341,7 +3341,7 @@ class AppLocalizationDelegate extends LocalizationsDelegate<S> {
   List<Locale> get supportedLocales {
     return const <Locale>[
       Locale.fromSubtags(languageCode: 'en'),
-      Locale.fromSubtags(languageCode: 'ru', countryCode: 'RU'),
+      Locale.fromSubtags(languageCode: 'ru'),
     ];
   }
 

@@ -2,10 +2,10 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:thingsboard_app/config/routes/router.dart';
 import 'package:thingsboard_app/config/routes/v2/router_2.dart';
-import 'package:thingsboard_app/config/themes/app_colors.dart';
 import 'package:thingsboard_app/core/logger/tb_logger.dart';
 import 'package:thingsboard_app/locator.dart';
 import 'package:thingsboard_app/modules/notification/service/i_notifications_local_service.dart';
@@ -81,8 +81,11 @@ class NotificationService {
 
   Future<String?> getToken() async {
     try {
-      return _fcmToken = await _messaging.getToken();
-    } catch (_) {
+      final token = await _messaging.getToken();
+      _log.debug('NotificationService::getToken() raw result: $token');
+      return _fcmToken = token;
+    } catch (e, st) {
+      _log.error('NotificationService::getToken() error: $e\n$st');
       return null;
     }
   }
@@ -97,7 +100,10 @@ class NotificationService {
       getIt<TbLogger>().debug(
         'NotificationService::logout() removeMobileSession',
       );
-      _tbClient.getUserService().removeMobileSession(_fcmToken!, requestConfig: RequestConfig(ignoreErrors: true));
+      _tbClient.getUserService().removeMobileSession(
+        _fcmToken!,
+        requestConfig: RequestConfig(ignoreErrors: true),
+      );
     }
 
     await _foregroundMessageSubscription?.cancel();
@@ -138,7 +144,7 @@ class NotificationService {
     );
 
     final androidPlatformChannelSpecifics = AndroidNotificationDetails(
-      color: AppColors.appPrimaryColor,
+      color: const Color(0xFFFF00CC),
       'general',
       // translate-me-ignore-next-line
       'General notifications',
@@ -178,6 +184,7 @@ class NotificationService {
   }
 
   Future<void> _getAndSaveToken() async {
+    _log.debug('NotificationService::_getAndSaveToken() start');
     String? fcmToken = await getToken();
     _log.debug('FCM token: $fcmToken');
 

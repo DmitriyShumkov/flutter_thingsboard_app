@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:thingsboard_app/widgets/tb_progress_indicator.dart';
 
 class FullScreenLoader extends StatelessWidget {
-  const FullScreenLoader({
-    super.key,
-  });
+  const FullScreenLoader({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +13,7 @@ class FullScreenLoader extends StatelessWidget {
           filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
           child: Container(
             decoration: BoxDecoration(
-              color: Colors.grey.shade200.withValues(alpha: 0.2),
+              color: Colors.black.withValues(alpha: 0.7),
             ),
             child: Container(
               alignment: Alignment.center,

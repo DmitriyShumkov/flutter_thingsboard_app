@@ -20,6 +20,9 @@ import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service
 import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
 import 'package:thingsboard_app/utils/utils.dart';
 
+const _activeColor = Color(0xFFCCFF00);
+const _inactiveColor = Color(0xFFAFAFAF);
+
 mixin DevicesBase on EntitiesBase<EntityData, EntityDataQuery> {
   final IOverlayService overlayService = getIt();
   @override
@@ -51,16 +54,16 @@ mixin DevicesBase on EntitiesBase<EntityData, EntityDataQuery> {
         entityName: device.field('name'),
         entityLabel: device.field('label'),
       );
-          globalNavigatorKey.currentContext?.pushReplacement(
-          '/dashboard',
-          extra: DashboardArgumentsEntity(
-            id: dashboardId,
-            title: device.field('name'),
-            state: state,
-            hideToolbar: false,
-            animate: false,
-          ),
-        );
+      globalNavigatorKey.currentContext?.pushReplacement(
+        '/dashboard',
+        extra: DashboardArgumentsEntity(
+          id: dashboardId,
+          title: device.field('name'),
+          state: state,
+          hideToolbar: false,
+          animate: false,
+        ),
+      );
     } else {
       if (tbClient.isTenantAdmin()) {
         overlayService.showWarnNotification(
@@ -184,6 +187,7 @@ class _DeviceCardState extends State<DeviceCard> {
   }
 
   Widget buildCard(BuildContext context) {
+    final isActive = widget.device.attribute('active') == 'true';
     return Stack(
       children: [
         Positioned.fill(
@@ -192,10 +196,7 @@ class _DeviceCardState extends State<DeviceCard> {
             child: Container(
               width: 4,
               decoration: BoxDecoration(
-                color:
-                    widget.device.attribute('active') == 'true'
-                        ? const Color(0xFF008A00)
-                        : const Color(0xFFAFAFAF),
+                color: isActive ? _activeColor : _inactiveColor,
                 borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(4),
                   bottomLeft: Radius.circular(4),
@@ -223,7 +224,6 @@ class _DeviceCardState extends State<DeviceCard> {
               } else {
                 image = SvgPicture.asset(
                   ThingsboardImage.deviceProfilePlaceholder,
-
                   semanticsLabel: 'Device',
                 );
                 imageFit = BoxFit.contain;
@@ -281,7 +281,7 @@ class _DeviceCardState extends State<DeviceCard> {
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
                                           style: const TextStyle(
-                                            color: Color(0xFF282828),
+                                            color: Colors.white,
                                             fontSize: 14,
                                             fontWeight: FontWeight.w500,
                                             height: 20 / 14,
@@ -304,7 +304,8 @@ class _DeviceCardState extends State<DeviceCard> {
                                       ),
                                     ],
                                   ),
-                                  if (widget.device.field('label')?.isNotEmpty == true)
+                                  if (widget.device.field('label')?.isNotEmpty ==
+                                      true)
                                     Padding(
                                       padding: const EdgeInsets.only(top: 2),
                                       child: Text(
@@ -335,18 +336,13 @@ class _DeviceCardState extends State<DeviceCard> {
                                         ),
                                       ),
                                       Text(
-                                        widget.device.attribute('active') ==
-                                                'true'
+                                        isActive
                                             ? S.of(context).active
                                             : S.of(context).inactive,
                                         style: TextStyle(
-                                          color:
-                                              widget.device.attribute(
-                                                        'active',
-                                                      ) ==
-                                                      'true'
-                                                  ? const Color(0xFF008A00)
-                                                  : const Color(0xFFAFAFAF),
+                                          color: isActive
+                                              ? _activeColor
+                                              : _inactiveColor,
                                           fontSize: 12,
                                           height: 16 / 12,
                                           fontWeight: FontWeight.normal,
@@ -399,7 +395,6 @@ class _DeviceCardState extends State<DeviceCard> {
             width: 58,
             height: 58,
             decoration: const BoxDecoration(
-              // color: Color(0xFFEEEEEE),
               borderRadius: BorderRadius.horizontal(left: Radius.circular(4)),
             ),
             child: FutureBuilder<CachedDeviceProfileInfo>(
@@ -467,7 +462,7 @@ class _DeviceCardState extends State<DeviceCard> {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
-                          color: Color(0xFF282828),
+                          color: Colors.white,
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
                           height: 20 / 14,

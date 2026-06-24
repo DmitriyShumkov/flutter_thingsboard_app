@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1010037335244",
+    "project_id": "fantik-push",
+    "storage_bucket": "fantik-push.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1010037335244:android:44661066470886c9b3ce69",
+        "android_client_info": {
+          "package_name": "fantik.control.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBMpeTSL6TCWWCADxmw4uugk5p1zRqZn0A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

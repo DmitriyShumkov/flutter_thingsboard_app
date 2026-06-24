@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:thingsboard_app/config/themes/app_colors.dart';
 import 'package:thingsboard_app/core/auth/login/provider/login_provider.dart';
 import 'package:thingsboard_app/core/auth/login/widgets/full_screen_loader.dart';
 import 'package:thingsboard_app/generated/l10n.dart';
@@ -11,7 +10,6 @@ import 'package:thingsboard_app/modules/profile/di/profile_di.dart';
 import 'package:thingsboard_app/modules/profile/widget/profile_preview_widget.dart';
 import 'package:thingsboard_app/utils/services/overlay_service/i_overlay_service.dart';
 import 'package:thingsboard_app/utils/ui/visibility_widget.dart';
-
 import 'package:thingsboard_app/widgets/tb_app_bar.dart';
 
 class ProfilePage extends HookConsumerWidget {
@@ -38,7 +36,7 @@ class ProfilePage extends HookConsumerWidget {
       };
     }, []);
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.black,
       appBar: TbAppBar(
         title: Text(S.of(context).profile),
         actions: [
@@ -53,7 +51,7 @@ class ProfilePage extends HookConsumerWidget {
           ),
           if (fullscreen)
             IconButton(
-              icon:  const Icon(Icons.logout, color: AppColors.textError),
+              icon: const Icon(Icons.logout, color: Color(0xFFFFAA00)),
               onPressed: () {
                 ref.read(loginProvider.notifier).logout();
               },
@@ -67,10 +65,13 @@ class ProfilePage extends HookConsumerWidget {
               padding: const EdgeInsets.symmetric(vertical: 24),
               child: AnimatedSwitcher(
                 duration: const Duration(milliseconds: 300),
-                child: user == null ? const SizedBox() :  ProfilePreviewWidget(
-                  user: user,
-                  loadingNotifier: isLoading,
-                ),
+                child:
+                    user == null
+                        ? const SizedBox()
+                        : ProfilePreviewWidget(
+                          user: user,
+                          loadingNotifier: isLoading,
+                        ),
               ),
             ),
           ),

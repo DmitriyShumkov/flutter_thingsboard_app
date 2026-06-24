@@ -104,6 +104,11 @@ class OverlayService implements IOverlayService {
       context: context,
       builder:
           (context) => AlertDialog(
+            backgroundColor: Colors.black,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+              side: const BorderSide(color: Color(0xFFFF00CC), width: 1),
+            ),
             title: Text(data.title),
             content: Text(data.message),
             actions: [

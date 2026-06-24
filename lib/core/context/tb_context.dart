@@ -220,23 +220,6 @@ class TbContext implements PopEntry {
 
       _isAuthenticated.value =
           tbClient.isAuthenticated() && !tbClient.isPreVerificationToken();
-      // if (versionInfo != null && versionInfo?.minVersion != null) {
-      //   if (_deviceInfoService.getAppVersion().versionInt() <
-      //       (versionInfo!.minVersion?.versionInt() ?? 0)) {
-      //     thingsboardAppRouter.navigateTo(
-      //       VersionRoutes.updateRequiredRoutePath,
-      //       clearStack: true,
-      //       replace: true,
-      //       routeSettings: RouteSettings(
-      //         arguments: VersionRouteArguments(
-      //           versionInfo: versionInfo!,
-      //           storeInfo: storeInfo,
-      //         ),
-      //       ),
-      //     );
-      //     return;
-      //   }
-      // }
 
       if (isAuthenticated) {
         onDone?.call();
@@ -247,7 +230,10 @@ class TbContext implements PopEntry {
       }
 
       if (isAuthenticated) {
-      
+        if (getIt<IFirebaseService>().apps.isNotEmpty) {
+          log.debug('TbContext::onUserLoaded() init NotificationService');
+          getIt<NotificationService>().init();
+        }
       }
     } catch (e, s) {
       log.error('TbContext.onUserLoaded: $e', e, s);
@@ -303,7 +289,7 @@ class TbContext implements PopEntry {
     _handleRootState = true;
 
     if (getIt<IFirebaseService>().apps.isNotEmpty) {
-      await getIt<NotificationService>().init();
+      await getIt<NotificationService>().logout();
     }
 
     await tbClient.logout(requestConfig: requestConfig, notifyUser: notifyUser);

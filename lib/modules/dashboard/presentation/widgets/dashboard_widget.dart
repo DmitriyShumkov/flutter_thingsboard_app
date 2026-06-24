@@ -173,7 +173,7 @@ class _DashboardState extends State<DashboardWidget> {
               return Container(
                 padding: EdgeInsets.only(bottom: bottomPadding),
                 alignment: Alignment.center,
-                color: Colors.white,
+                color: Colors.black,
                 child: const TbProgressIndicator(size: 50.0),
               );
             }

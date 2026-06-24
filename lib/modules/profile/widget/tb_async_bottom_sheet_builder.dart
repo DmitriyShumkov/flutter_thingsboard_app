@@ -20,12 +20,10 @@ class TbAsyncBottomSheetBuilder<PageKeyType, ItemType> extends HookWidget {
     this.listTitleBuilder,
     this.itemBuilder,
     required this.repository,
-
     this.selectedValue,
   });
   final String title;
   final ItemType? selectedValue;
-
   final Widget Function(BuildContext context, ItemType item)? itemBuilder;
   final String Function(BuildContext context, ItemType item)? listTitleBuilder;
   final SearchablePaginationRepository<PageKeyType, ItemType> repository;
@@ -53,7 +51,7 @@ class TbAsyncBottomSheetBuilder<PageKeyType, ItemType> extends HookWidget {
       child: Container(
         decoration: const BoxDecoration(
           borderRadius: BorderRadius.vertical(top: Radius.circular(8)),
-          color: AppColors.textWhite,
+          color: Colors.black,
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -85,7 +83,6 @@ class TbAsyncBottomSheetBuilder<PageKeyType, ItemType> extends HookWidget {
                 ],
               ),
             ),
-
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               child: ReactiveFormConsumer(
@@ -101,7 +98,6 @@ class TbAsyncBottomSheetBuilder<PageKeyType, ItemType> extends HookWidget {
                       onPressed: () {
                         form.control('searchValue').updateValue('');
                       },
-
                       icon: const Icon(
                         Icons.close,
                         size: 24,
@@ -138,14 +134,17 @@ class TbAsyncBottomSheetBuilder<PageKeyType, ItemType> extends HookWidget {
                             listTitleBuilder?.call(context, item) ??
                             item.toString();
                         final convertedSelectedItem =
-                            listTitleBuilder?.call(context, selectedValue as ItemType) ??
+                            listTitleBuilder?.call(
+                              context,
+                              selectedValue as ItemType,
+                            ) ??
                             selectedValue.toString();
                         isSelected = convertedSelectedItem == convertedItem;
                       }
 
                       return Material(
-                        child:
-                            itemBuilder?.call(context, item) ??
+                        color: Colors.black,
+                        child: itemBuilder?.call(context, item) ??
                             ListTile(
                               selected: isSelected,
                               selectedTileColor: Theme.of(
@@ -162,7 +161,6 @@ class TbAsyncBottomSheetBuilder<PageKeyType, ItemType> extends HookWidget {
                                         item.toString(),
                                   ).boldSubString(
                                     searchValue.toString(),
-
                                     regularTextStyle: TbTextStyles.bodyLarge,
                                   ),
                                   if (isSelected)

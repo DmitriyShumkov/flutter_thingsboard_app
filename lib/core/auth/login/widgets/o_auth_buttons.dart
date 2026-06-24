@@ -14,6 +14,7 @@ class OAuthButtons extends StatelessWidget {
   });
   final void Function(OAuth2ClientInfo) onButtonPressed;
   final List<OAuth2ClientInfo> clients;
+
   @override
   Widget build(BuildContext context) {
     return clients.length == 1 && clients.first.name == 'qr'
@@ -23,6 +24,10 @@ class OAuthButtons extends StatelessWidget {
               OAuthButton(
                 logo: SvgPicture.asset(
                   ThingsboardImage.oauth2Logos['qr-code-logo']!,
+                  colorFilter: const ColorFilter.mode(
+                    Colors.white,
+                    BlendMode.srcIn,
+                  ),
                 ),
                 onTap: () => onButtonPressed(clients.first),
                 title: S.of(context).scanQrCode,
@@ -31,16 +36,17 @@ class OAuthButtons extends StatelessWidget {
           )
         : Row(
             spacing: 10,
-            children: clients
-                .map(
-                  (e) => Expanded(
-                    child: OAuthButton(
-                      logo: _getOauth2ButtonLogo(context, e),
-                      onTap: () => onButtonPressed(e),
-                    ),
-                  ),
-                )
-                .toList(),
+            children:
+                clients
+                    .map(
+                      (e) => Expanded(
+                        child: OAuthButton(
+                          logo: _getOauth2ButtonLogo(context, e),
+                          onTap: () => onButtonPressed(e),
+                        ),
+                      ),
+                    )
+                    .toList(),
           );
   }
 }
@@ -49,7 +55,14 @@ Widget _getOauth2ButtonLogo(BuildContext context, OAuth2ClientInfo info) {
   final String? svgPath = ThingsboardImage.oauth2Logos[info.icon];
 
   if (svgPath != null) {
-    return SizedBox(width: 24, height: 24, child: SvgPicture.asset(svgPath));
+    return SizedBox(
+      width: 24,
+      height: 24,
+      child: SvgPicture.asset(
+        svgPath,
+        colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+      ),
+    );
   }
 
   final iconData = NavigationHelper.getIconFromString(info.icon);
@@ -57,9 +70,6 @@ Widget _getOauth2ButtonLogo(BuildContext context, OAuth2ClientInfo info) {
   return SizedBox(
     width: 24,
     height: 24,
-    child: Icon(
-      iconData,
-      color: Colors.black,
-    ),
+    child: Icon(iconData, color: Colors.white),
   );
 }

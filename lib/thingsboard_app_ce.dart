@@ -18,11 +18,12 @@ class ThingsboardApp extends HookConsumerWidget {
     final router = ref.watch(routerProvider);
 
     return ToastificationWrapper(
-   child :  ColoredBox(
+      child: ColoredBox(
         color: tbCeTheme.scaffoldBackgroundColor,
         child: MaterialApp.router(
           debugShowCheckedModeBanner: false,
           color: tbCeTheme.scaffoldBackgroundColor,
+          locale: const Locale('ru'),
           localizationsDelegates: const [
             S.delegate,
             LocaleNamesLocalizationsDelegate(),
@@ -34,11 +35,15 @@ class ThingsboardApp extends HookConsumerWidget {
           supportedLocales: S.delegate.supportedLocales,
           onGenerateTitle: (BuildContext context) => S.of(context).appTitle,
           themeMode: ThemeMode.light,
-          theme: tbCeTheme,
+          theme: tbCeTheme.copyWith(
+            scaffoldBackgroundColor: tbCeTheme.scaffoldBackgroundColor,
+            canvasColor: tbCeTheme.scaffoldBackgroundColor,
+            dialogBackgroundColor: Colors.black,
+          ),
           darkTheme: tbDarkTheme,
           routerConfig: router,
         ),
-   )
+      ),
     );
   }
 }
